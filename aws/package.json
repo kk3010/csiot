@@ -10,7 +10,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "eslint --ext .ts ./src",
-    "format": "prettier --write './**/*.+(js|ts|json)'"
+    "format": "prettier --write './**/*.+(js|ts|json)'",
+    "prepare": "cd .. && husky install aws/.husky"
   },
   "author": "",
   "license": "ISC",
@@ -36,10 +37,5 @@
     "prettier": "^2.3.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run format && npm run lint"
-    }
   }
 }
