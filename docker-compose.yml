@@ -1,0 +1,12 @@
+version: "3"
+services:
+  # hardware emulation starts a server for you on port 9292
+  emulator:
+    image: csiot/emulator
+    build: ./emulator
+
+  bridge:
+    image: csiot/bridge
+    build: ./aws
+    volumes:
+      - "./aws/certs:/certs:ro"
