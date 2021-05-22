@@ -3,7 +3,7 @@
  */
 export interface IBridge {
   /**
-   * A continuous loop that syns AWS and a device.
+   * A continuous loop that syncs AWS and a device.
    *
    * @returns A Promise that never resolves.
    */
