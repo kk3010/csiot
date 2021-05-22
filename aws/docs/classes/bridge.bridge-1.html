@@ -103,6 +103,7 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="bridge.bridge-1.html#loop" class="tsd-kind-icon">loop</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="bridge.bridge-1.html#onerror" class="tsd-kind-icon">on<wbr>Error</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="bridge.bridge-1.html#onmessagereceived" class="tsd-kind-icon">on<wbr>Message<wbr>Received</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="bridge.bridge-1.html#publishmessagesperiodically" class="tsd-kind-icon">publish<wbr>Messages<wbr>Periodically</a></li>
 							</ul>
@@ -175,7 +176,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/ibridge.ibridge-1.html">IBridge</a>.<a href="../interfaces/ibridge.ibridge-1.html#loop">loop</a></p>
 								<ul>
-									<li>Defined in bridge.ts:47</li>
+									<li>Defined in bridge.ts:64</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -185,6 +186,43 @@
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>A Promise that never resolves.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="onerror" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> on<wbr>Error</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">on<wbr>Error<span class="tsd-signature-symbol">(</span>originalError<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, disconnectError<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in bridge.ts:52</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Invoked when the connection is about to be aborted due to an error.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>originalError: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The initial error that causes the bridge to exit.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> disconnectError: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>May occur during disconnection attempt.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -292,6 +330,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="bridge.bridge-1.html#loop" class="tsd-kind-icon">loop</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="bridge.bridge-1.html#onerror" class="tsd-kind-icon">on<wbr>Error</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="bridge.bridge-1.html#onmessagereceived" class="tsd-kind-icon">on<wbr>Message<wbr>Received</a>

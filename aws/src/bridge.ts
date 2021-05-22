@@ -44,16 +44,33 @@ export class Bridge implements IBridge {
     })
   }
 
+  /**
+   * Invoked when the connection is about to be aborted due to an error.
+   * @param originalError - The initial error that causes the bridge to exit.
+   * @param disconnectError - May occur during disconnection attempt.
+   */
+  private onError(originalError: any, disconnectError?: any) {
+    if (disconnectError) {
+      console.error('Could not disconnect.')
+      console.error(disconnectError)
+      console.error('See next lines for original error')
+    } else {
+      console.error('Exiting due to error. See following message for more info.')
+    }
+    console.error(originalError)
+    process.exit(1)
+  }
+
   async loop() {
     try {
       await this.awsClient.connect()
       await this.awsClient.subscribe((msg) => this.onMessageReceived(msg))
       await this.publishMessagesPeriodically()
     } catch (e) {
-      await this.awsClient.disconnect().catch(console.error)
-      console.error('Exiting due to error. See following message for more info.')
-      console.error(e)
-      process.exit(1)
+      this.awsClient
+        .disconnect()
+        .then(() => this.onError(e))
+        .catch((disconnectError) => this.onError(e, disconnectError))
     }
   }
 }
