@@ -6,8 +6,8 @@ export default class DeviceClient {
   constructor(protected apiUrl: string) {}
 
   async getState() {
-    const res = await fetch(this.apiUrl);
-    const json = await res.json();
+    const res = await fetch(this.apiUrl)
+    const json = await res.json()
     return json.state as State
   }
 

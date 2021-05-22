@@ -23,7 +23,6 @@ export function useCli() {
           type: 'string',
           default: process.env.AWS_ROOT_CA,
           required: true,
-
         })
         .option('cert', {
           alias: 'c',
