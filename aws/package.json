@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc -w",
-    "dev": "nodemon src/index.ts -- -d http://localhost:9292/gpios/led_green -s eu-central-1 -e a2rkqhd4hxz5py-ats.iot.eu-central-1.amazonaws.com -r ./certs/root-CA.crt -c ./certs/temp_sensor_1.cert.pem -k ./certs/temp_sensor_1.private.key -C sdk-nodejs-5dff24b9-16b2-4d24-aaff-2365f86a5757 -t topic_1",
+    "dev": "nodemon src/index.ts",
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "eslint --ext .ts ./src",
@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "aws-iot-device-sdk-v2": "^1.4.7",
+    "dotenv": "^10.0.0",
     "node-fetch": "^2.6.1",
     "yargs": "^17.0.1"
   },
