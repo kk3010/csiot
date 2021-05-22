@@ -5,7 +5,7 @@ It may be extended to provide other methods of connection (e.g. lower level sett
 
 ## Setup
 
-First, copy the [.env.sample](.env.sample) file to .env and replace the configuration with your specific settings.
+First, copy the `.env.sample` file to `.env` and replace the configuration with your specific settings.
 
 ### AWS Certificates
 
@@ -14,11 +14,11 @@ You'll have to provide the path to these files either via environment variables 
 
 ### Showcasing
 
-In the parent folder there's a [docker-compose.yml](../docker-compose.yml) which can be used to spin up an instance without installing any dependencies like node / npm.
+In the parent folder there's a `docker-compose.yml` which can be used to spin up an instance without installing any dependencies like node / npm.
 
 ### Documentation
 
-There is a [docs](docs/index.html) folder that contains HTML documentation generated with [TypeDoc](https://typedoc.org/).
+There is a `docs` folder that contains HTML documentation generated with [TypeDoc](https://typedoc.org/).
 
 The script to generate the documentation can be invoked with `npm run doc`
 
