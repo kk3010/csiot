@@ -21,5 +21,6 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'no-useless-constructor': 'off',
     semi: 'warn',
+    "tsdoc/syntax": "warn"
   },
 }
