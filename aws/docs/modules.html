@@ -2709,9 +2709,50 @@ img {
 <div class="container container-main">
 	<div class="content-wrap">
 		<div class="tsd-panel tsd-typography">
-			<a href="#jupiter" id="jupiter" style="color: inherit; text-decoration: none;">
-				<h1>jupiter</h1>
+			<a href="#aws-device-connector" id="aws-device-connector" style="color: inherit; text-decoration: none;">
+				<h1>AWS Device Connector</h1>
 			</a>
+			<p>This project aims to connect AWS IoT to a device that can be reached via HTTP.
+			It may be extended to provide other methods of connection (e.g. lower level setting of pins) by implementing the DeviceClient interface and using that as a parameter for the Bridge.</p>
+			<a href="#setup" id="setup" style="color: inherit; text-decoration: none;">
+				<h2>Setup</h2>
+			</a>
+			<p>First, copy the <a href=".env.sample">.env.sample</a> file to .env and replace the configuration with your specific settings.</p>
+			<a href="#aws-certificates" id="aws-certificates" style="color: inherit; text-decoration: none;">
+				<h3>AWS Certificates</h3>
+			</a>
+			<p>Download the certificates for your device and place them in a folder (<code>certs</code> is recommended and used by the compose file).
+			You&#39;ll have to provide the path to these files either via environment variables (see .env) or CLI parameters when running the project manually i.e. without npm.</p>
+			<a href="#showcasing" id="showcasing" style="color: inherit; text-decoration: none;">
+				<h3>Showcasing</h3>
+			</a>
+			<p>In the parent folder there&#39;s a <a href="../docker-compose.yml">docker-compose.yml</a> which can be used to spin up an instance without installing any dependencies like node / npm.</p>
+			<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
+				<h3>Documentation</h3>
+			</a>
+			<p>There is a <a href="docs/index.html">docs</a> folder that contains HTML documentation generated with <a href="https://typedoc.org/">TypeDoc</a>.</p>
+			<p>The script to generate the documentation can be invoked with <code>npm run doc</code></p>
+			<a href="#development" id="development" style="color: inherit; text-decoration: none;">
+				<h3>Development</h3>
+			</a>
+			<a href="#npm" id="npm" style="color: inherit; text-decoration: none;">
+				<h4>NPM</h4>
+			</a>
+			<p>First, run <code>npm install</code> to install all the dependencies.</p>
+			<a href="#docker" id="docker" style="color: inherit; text-decoration: none;">
+				<h4>Docker</h4>
+			</a>
+			<p>Build the emulator image in the other folder via <code>docker build -t csiot/emulator ../emulator</code>.
+				Having done that you can run the container via <code>docker run -p 9292:9292 csiot/emulator</code>.
+			This makes the API accessible on <code>http://localhost:9292</code>.</p>
+			<a href="#starting" id="starting" style="color: inherit; text-decoration: none;">
+				<h4>Starting</h4>
+			</a>
+			<p>Start the project by running <code>npm run dev</code>.</p>
+			<a href="#building" id="building" style="color: inherit; text-decoration: none;">
+				<h4>Building</h4>
+			</a>
+			<p>The project can be built by running <code>npm run build</code>.</p>
 		</div>
 		<section class="tsd-panel-group tsd-index-group">
 			<h2>Index</h2>
