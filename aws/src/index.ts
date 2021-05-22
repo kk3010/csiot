@@ -9,11 +9,4 @@ const device = new DeviceClient(args.api_url)
 
 const bridge = new Bridge(aws, device)
 
-aws
-  .connect()
-  .then(() => bridge.loop())
-  .catch((e) => {
-    console.error(e)
-    process.exit(1)
-  })
-  .finally(() => aws.disconnect())
+bridge.loop()

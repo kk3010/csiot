@@ -45,7 +45,15 @@ export class Bridge implements IBridge {
   }
 
   async loop() {
-    await this.awsClient.subscribe((msg) => this.onMessageReceived(msg))
-    await this.publishMessagesPeriodically()
+    try {
+      await this.awsClient.connect()
+      await this.awsClient.subscribe((msg) => this.onMessageReceived(msg))
+      await this.publishMessagesPeriodically()
+    } catch (e) {
+      await this.awsClient.disconnect().catch(console.error)
+      console.error('Exiting due to error. See following message for more info.')
+      console.error(e)
+      process.exit(1)
+    }
   }
 }
