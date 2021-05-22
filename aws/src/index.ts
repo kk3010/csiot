@@ -1,7 +1,7 @@
-import Bridge from './bridge'
+import { Bridge } from './bridge'
 import { useCli } from './cli'
-import AwsClient from './awsClient'
-import DeviceClient from './deviceClient'
+import { AwsClient } from './awsClient'
+import { DeviceClient } from './deviceClient'
 
 const args = useCli()
 const aws = new AwsClient(args)

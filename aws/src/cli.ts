@@ -4,6 +4,11 @@ import { Args } from './awsClient'
 // eslint-disable-next-line camelcase
 export type CliArgs = Args & { api_url: string }
 
+/**
+ * Gets the arguments from {@link CliArgs} from cli parameters if provided, otherwise from environment variables.
+ *
+ * @returns An object containing all arguments specified.
+ */
 export function useCli() {
   return yargs
     .command('*', false, (yargs) => {

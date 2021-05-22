@@ -20,7 +20,7 @@ export type Message = {
   desired: Record<string, any>
 }
 
-export default class AwsClient {
+export class AwsClient {
   protected connection: mqtt.MqttClientConnection
   protected decoder = new TextDecoder('utf8')
   protected topic: string

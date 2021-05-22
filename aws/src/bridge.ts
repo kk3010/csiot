@@ -1,19 +1,35 @@
-import AwsClient from './awsClient'
-import DeviceClient from './deviceClient'
+import { AwsClient } from './awsClient'
 import type { Message } from './awsClient'
+import { IBridge } from './IBridge'
+import { IDeviceClient } from './IDeviceClient'
 
-export default class Bridge {
-  constructor(protected awsClient: AwsClient, protected deviceClient: DeviceClient) {}
+export class Bridge implements IBridge {
+  /**
+   * @param awsClient - Instance of an AWS client
+   * @param deviceClient - Instance of a client to connect to a device
+   */
+  constructor(protected awsClient: AwsClient, protected deviceClient: IDeviceClient) {}
 
-  onMessageReceived(message: Message) {
+  /**
+   * Update a device upon receiving a message from AWS.
+   *
+   * @param message - The message that was received.
+   * @returns An empty promise that resolves when the device has been updated.
+   */
+  private async onMessageReceived(message: Message) {
     console.log('received: ', message)
     const reported = message.reported
     // toggle 'on' state for showcasing
     reported.on = !reported.on
-    this.deviceClient.updateState(reported)
+    await this.deviceClient.updateState(reported)
   }
 
-  publishMessagesPeriodically() {
+  /**
+   * Publishes messages to AWS IoT periodically.
+   *
+   * @returns A Promise that only ever rejects.
+   */
+  private publishMessagesPeriodically() {
     return new Promise<never>((resolve, reject) => {
       const intervalFn = async () => {
         try {
@@ -28,12 +44,8 @@ export default class Bridge {
     })
   }
 
-  /**
-   * Returns a promise that never resolves but rejects when an error is thrown while publishing
-   */
   async loop() {
     await this.awsClient.subscribe((msg) => this.onMessageReceived(msg))
-
-    return this.publishMessagesPeriodically()
+    await this.publishMessagesPeriodically()
   }
 }

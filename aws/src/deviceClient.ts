@@ -1,18 +1,20 @@
 import fetch from 'node-fetch'
+import { IDeviceClient } from './IDeviceClient'
+import type { State } from './IDeviceClient'
 
-type State = Record<string, any>
-
-export default class DeviceClient {
+/**
+ * Implementation of a device that can be manipulated via HTTP
+ */
+export class DeviceClient implements IDeviceClient {
   constructor(protected apiUrl: string) {}
 
   async getState() {
     const res = await fetch(this.apiUrl)
-    const json = await res.json()
-    return json.state as State
+    const { state } = await res.json()
+    return state as State
   }
 
   async updateState(state: State) {
-    const res = await fetch(this.apiUrl, { method: 'POST', body: JSON.stringify(state) })
-    return res
+    await fetch(this.apiUrl, { method: 'POST', body: JSON.stringify(state) })
   }
 }
