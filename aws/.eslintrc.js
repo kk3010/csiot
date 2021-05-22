@@ -9,12 +9,12 @@ module.exports = {
       files: ['*.ts', '*.tsx'],
       parserOptions: {
         tsconfigRootDir: __dirname,
-        project: ['./tsconfig.json'],
+        project: './tsconfig.json',
       },
     },
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'eslint-plugin-tsdoc'],
   extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'standard', 'prettier'],
   rules: {
     '@typescript-eslint/no-explicit-any': 'off',
