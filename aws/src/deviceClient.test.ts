@@ -1,7 +1,7 @@
 import { mocked } from 'ts-jest/utils'
-import { DeviceClient } from './deviceClient';
+import { DeviceClient } from './deviceClient'
 import type { IDeviceClient, State } from './IDeviceClient'
-import fetch from "node-fetch";
+import fetch from 'node-fetch'
 
 jest.mock('node-fetch')
 const { Response, Headers } = jest.requireActual('node-fetch')
@@ -17,7 +17,7 @@ const headers = new Headers({
 const responseInit = {
   status: 200,
   statusText: 'ok',
-  headers: headers
+  headers: headers,
 }
 
 const mockFetchValue = (state: State) => {
@@ -27,7 +27,7 @@ const mockFetchValue = (state: State) => {
 
 describe('HTTP Device Client', () => {
   let client: IDeviceClient
-  const url = "example.com"
+  const url = 'example.com'
 
   beforeEach(() => {
     client = new DeviceClient(url)
@@ -46,6 +46,6 @@ describe('HTTP Device Client', () => {
     const state: State = { id: 2, on: true }
     mockFetchValue(state)
     await client.updateState(state)
-    expect(mockedFetch).toBeCalledWith(url, { method: "POST", body: JSON.stringify(state) })
+    expect(mockedFetch).toBeCalledWith(url, { method: 'POST', body: JSON.stringify(state) })
   })
 })

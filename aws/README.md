@@ -26,7 +26,7 @@ The script to generate the documentation can be invoked with `npm run doc`
 
 #### NPM
 
-First, run `npm install` to install all the dependencies.
+First, run `npm install` to install all the dependencies, then run `npm run prepare` to setup husky for automatic formatting and doc generation when committing.
 
 #### Docker
 
