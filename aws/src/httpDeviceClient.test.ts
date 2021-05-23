@@ -1,5 +1,5 @@
 import { mocked } from 'ts-jest/utils'
-import { DeviceClient } from './deviceClient'
+import { HttpDeviceClient } from './httpDeviceClient'
 import type { IDeviceClient, State } from './IDeviceClient'
 import fetch from 'node-fetch'
 
@@ -30,7 +30,7 @@ describe('HTTP Device Client', () => {
   const url = 'example.com'
 
   beforeEach(() => {
-    client = new DeviceClient(url)
+    client = new HttpDeviceClient(url)
     mockedFetch.mockReset()
   })
 

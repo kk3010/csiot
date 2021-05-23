@@ -5,7 +5,7 @@ import type { State } from './IDeviceClient'
 /**
  * Implementation of a device that can be manipulated via HTTP
  */
-export class DeviceClient implements IDeviceClient {
+export class HttpDeviceClient implements IDeviceClient {
   constructor(protected apiUrl: string) {}
 
   async getState() {
