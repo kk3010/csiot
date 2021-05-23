@@ -97,13 +97,14 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="bridge.bridge-1.html#awsclient" class="tsd-kind-icon">aws<wbr>Client</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="bridge.bridge-1.html#deviceclient" class="tsd-kind-icon">device<wbr>Client</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="bridge.bridge-1.html#logger" class="tsd-kind-icon">logger</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="bridge.bridge-1.html#cleanup" class="tsd-kind-icon">cleanup</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="bridge.bridge-1.html#loop" class="tsd-kind-icon">loop</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="bridge.bridge-1.html#onerror" class="tsd-kind-icon">on<wbr>Error</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="bridge.bridge-1.html#onmessagereceived" class="tsd-kind-icon">on<wbr>Message<wbr>Received</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="bridge.bridge-1.html#publishmessagesperiodically" class="tsd-kind-icon">publish<wbr>Messages<wbr>Periodically</a></li>
 							</ul>
@@ -123,7 +124,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in bridge.ts:6</li>
+									<li>Defined in bridge.ts:8</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -162,9 +163,51 @@
 					<aside class="tsd-sources">
 					</aside>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="logger" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> logger</h3>
+					<div class="tsd-signature tsd-kind-icon">logger<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Logger</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in bridge.ts:8</li>
+						</ul>
+					</aside>
+				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="cleanup" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> cleanup</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">cleanup<span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in bridge.ts:55</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Invoked when the connection is about to be aborted due to an error.
+									Disconnects from AWS, logs errors to console and exits process.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>e: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The initial error that causes the bridge to exit.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="loop" class="tsd-anchor"></a>
 					<h3>loop</h3>
@@ -176,7 +219,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/ibridge.ibridge-1.html">IBridge</a>.<a href="../interfaces/ibridge.ibridge-1.html#loop">loop</a></p>
 								<ul>
-									<li>Defined in bridge.ts:64</li>
+									<li>Defined in bridge.ts:76</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -190,43 +233,6 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
-					<a name="onerror" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> on<wbr>Error</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">on<wbr>Error<span class="tsd-signature-symbol">(</span>originalError<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, disconnectError<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in bridge.ts:52</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Invoked when the connection is about to be aborted due to an error.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>originalError: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The initial error that causes the bridge to exit.</p>
-									</div>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> disconnectError: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>May occur during disconnection attempt.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
 					<a name="onmessagereceived" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> on<wbr>Message<wbr>Received</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
@@ -236,7 +242,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in bridge.ts:19</li>
+									<li>Defined in bridge.ts:22</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -268,7 +274,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in bridge.ts:32</li>
+									<li>Defined in bridge.ts:35</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -307,6 +313,9 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/httpdeviceclient.html">http<wbr>Device<wbr>Client</a>
 					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/logger.html">logger</a>
+					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
@@ -325,11 +334,14 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
 								<a href="bridge.bridge-1.html#deviceclient" class="tsd-kind-icon">device<wbr>Client</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="bridge.bridge-1.html#loop" class="tsd-kind-icon">loop</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="bridge.bridge-1.html#logger" class="tsd-kind-icon">logger</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
-								<a href="bridge.bridge-1.html#onerror" class="tsd-kind-icon">on<wbr>Error</a>
+								<a href="bridge.bridge-1.html#cleanup" class="tsd-kind-icon">cleanup</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="bridge.bridge-1.html#loop" class="tsd-kind-icon">loop</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="bridge.bridge-1.html#onmessagereceived" class="tsd-kind-icon">on<wbr>Message<wbr>Received</a>

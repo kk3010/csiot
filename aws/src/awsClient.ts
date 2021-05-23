@@ -1,5 +1,6 @@
 import { mqtt, io, iot } from 'aws-iot-device-sdk-v2'
 import { TextDecoder } from 'util'
+import { useLogging } from './logger'
 
 export type Args = {
   endpoint: string
@@ -27,6 +28,7 @@ export class AwsClient {
   protected connection: mqtt.MqttClientConnection
   protected decoder = new TextDecoder('utf8')
   protected topic: string
+  protected logger = useLogging('AWS Client')
 
   constructor(args: Args) {
     if (args.verbosity !== 'none') {
@@ -92,7 +94,7 @@ export class AwsClient {
    * @returns Promise which resolves when the subscription succeeds and rejects if it fails.
    */
   async subscribe(callback: (message: Message) => void) {
-    console.log('subscribing to ', this.topic)
+    this.logger.info('subscribing to ', this.topic)
     await this.connection.subscribe(this.topic, mqtt.QoS.AtLeastOnce, (_, payload) => {
       const decoded = this.decoder.decode(payload)
       const json = JSON.parse(decoded)

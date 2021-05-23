@@ -77,7 +77,7 @@ export function useCli() {
           alias: 'v',
           description: 'BOOLEAN: Verbose output',
           type: 'string',
-          default: 'none',
+          default: 'info',
           choices: ['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'none'],
         })
         .help()
