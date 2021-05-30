@@ -27,5 +27,9 @@ This matches the default configuration the compose file uses.
 Refer to the README in the `aws` folder for instructions on how to setup the client. You'll need at least the .env file or provide the configuration via environment variables in the compose file.
 
 ### Terraform
+For Windows-Users: After installing terraform move the terraform.exe to system32. Navigate to terraform folder and run `terraform init`. 
+
+Run `terraform plan` and enter your personal 12-digit account-ID. 
 
 Now you should be able to provision the required infrastructure to your account by running `terraform apply` from within the terraform folder.
+Enter your 12-digit personal account-ID.
