@@ -1,0 +1,18 @@
+version: "3"
+services:
+  # hardware emulation starts a server for you on port 9292
+  emulator:
+    image: csiot/emulator
+    build: ./emulator
+
+  bridge:
+    image: csiot/bridge
+    build: ./aws
+    volumes:
+      - "./aws/certs:/app/certs:ro"
+    depends_on:
+      - emulator
+    env_file: ./aws/.env
+    environment:
+      # override setting from .env file since we can reach the container under its name, not via localhost
+      - DEVICE_ENDPOINT=http://emulator:9292/gpios/led_green

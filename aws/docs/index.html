@@ -1,0 +1,166 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>AWS Device Connector</title>
+	<meta name="description" content="Documentation for AWS Device Connector">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">AWS Device Connector</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<h1>AWS Device Connector</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#aws-device-connector" id="aws-device-connector" style="color: inherit; text-decoration: none;">
+					<h1>AWS Device Connector</h1>
+				</a>
+				<p>This project aims to connect AWS IoT to a device that can be reached via HTTP.
+				It may be extended to provide other methods of connection (e.g. lower level setting of pins) by implementing the DeviceClient interface and using that as a parameter for the Bridge.</p>
+				<a href="#setup" id="setup" style="color: inherit; text-decoration: none;">
+					<h2>Setup</h2>
+				</a>
+				<p>First, copy the <code>.env.sample</code> file to <code>.env</code> and replace the configuration with your specific settings.</p>
+				<a href="#aws-certificates" id="aws-certificates" style="color: inherit; text-decoration: none;">
+					<h3>AWS Certificates</h3>
+				</a>
+				<p>Download the certificates for your device and place them in a folder (<code>certs</code> is recommended and used by the compose file).
+				You&#39;ll have to provide the path to these files either via environment variables (see .env) or CLI parameters when running the project manually i.e. without npm.</p>
+				<a href="#showcasing" id="showcasing" style="color: inherit; text-decoration: none;">
+					<h3>Showcasing</h3>
+				</a>
+				<p>In the parent folder there&#39;s a <code>docker-compose.yml</code> which can be used to spin up an instance without installing any dependencies like node / npm.</p>
+				<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
+					<h3>Documentation</h3>
+				</a>
+				<p>There is a <code>docs</code> folder that contains HTML documentation generated with <a href="https://typedoc.org/">TypeDoc</a>.</p>
+				<p>The script to generate the documentation can be invoked with <code>npm run doc</code></p>
+				<a href="#development" id="development" style="color: inherit; text-decoration: none;">
+					<h3>Development</h3>
+				</a>
+				<a href="#npm" id="npm" style="color: inherit; text-decoration: none;">
+					<h4>NPM</h4>
+				</a>
+				<p>First, run <code>npm install</code> to install all the dependencies, then run <code>npm run prepare</code> to setup husky for automatic formatting and doc generation when committing.</p>
+				<a href="#docker" id="docker" style="color: inherit; text-decoration: none;">
+					<h4>Docker</h4>
+				</a>
+				<p>Build the emulator image in the other folder via <code>docker build -t csiot/emulator ../emulator</code>.
+					Having done that you can run the container via <code>docker run -p 9292:9292 csiot/emulator</code>.
+				This makes the API accessible on <code>http://localhost:9292</code>.</p>
+				<a href="#starting" id="starting" style="color: inherit; text-decoration: none;">
+					<h4>Starting</h4>
+				</a>
+				<p>Start the project by running <code>npm run dev</code>.</p>
+				<a href="#building" id="building" style="color: inherit; text-decoration: none;">
+					<h4>Building</h4>
+				</a>
+				<p>The project can be built by running <code>npm run build</code>.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="modules.html">Exports</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/ibridge.html">IBridge</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/ideviceclient.html">IDevice<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/awsclient.html">aws<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/bridge.html">bridge</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/cli.html">cli</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/httpdeviceclient.html">http<wbr>Device<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/logger.html">logger</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
