@@ -184,3 +184,4 @@ override.tf.json
 # End of https://www.toptal.com/developers/gitignore/api/git,node,terraform,vscode
 
 certs
+.devcontainer
