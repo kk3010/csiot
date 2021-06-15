@@ -1,0 +1,10 @@
+{
+  "state": {
+    "reported": {
+      "value": 90
+    },
+    "desired" : {
+      "value" : 21
+    }
+  }
+}

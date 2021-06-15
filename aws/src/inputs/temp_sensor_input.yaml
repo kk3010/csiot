@@ -1,0 +1,4 @@
+# temperature sensor input
+state:
+  reported:
+    value: 21
