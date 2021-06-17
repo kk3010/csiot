@@ -1,11 +1,12 @@
 import { AwsClient } from './awsClient'
-import type { Message } from './awsClient'
-import { IBridge } from './IBridge'
-import { IDeviceClient } from './IDeviceClient'
 import { useLogging } from './logger'
+import type { Message } from './awsClient'
+import type { IBridge } from './IBridge'
+import type { IDeviceClient, State } from './IDeviceClient'
 
 export class Bridge implements IBridge {
   protected logger = useLogging('Bridge')
+  protected state: State = {}
 
   /**
    * @param awsClient - Instance of an AWS client
@@ -19,12 +20,10 @@ export class Bridge implements IBridge {
    * @param message - The message that was received.
    * @returns An empty promise that resolves when the device has been updated.
    */
-  private async onMessageReceived(message: Message) {
-    this.logger.info('received: ', message)
-    const reported = message.reported
-    // toggle 'on' state for showcasing
-    reported.on = !reported.on
-    await this.deviceClient.updateState(reported)
+  private async onMessageReceived(desired: Message['desired']) {
+    this.logger.info('Received: ', desired)
+    await this.deviceClient.updateState(desired)
+    this.state = { ...this.state, ...desired }
   }
 
   /**
@@ -37,7 +36,10 @@ export class Bridge implements IBridge {
       const intervalFn = async () => {
         try {
           const state = await this.deviceClient.getState()
-          await this.awsClient.publish(state)
+          if (JSON.stringify(state) !== JSON.stringify(this.state)) {
+            this.state = state
+            await this.awsClient.publishReportedState(state)
+          }
         } catch (e) {
           reject(e)
         }
@@ -53,7 +55,7 @@ export class Bridge implements IBridge {
    * @param e - The initial error that causes the bridge to exit.
    */
   private async cleanup(e: any) {
-    const onError = (originalError: any, disconnectError?: any) => {
+    const onError = (disconnectError?: any) => {
       if (disconnectError) {
         this.logger.error('Could not disconnect.')
         this.logger.error(disconnectError)
@@ -61,13 +63,13 @@ export class Bridge implements IBridge {
       } else {
         this.logger.error('Exiting due to error. See following message for more info.')
       }
-      this.logger.error(originalError)
+      this.logger.error(e)
     }
     try {
       await this.awsClient.disconnect()
-      onError(e)
+      onError()
     } catch (disconnectError) {
-      onError(e, disconnectError)
+      onError(disconnectError)
     } finally {
       process.exit(1)
     }
@@ -75,8 +77,9 @@ export class Bridge implements IBridge {
 
   async loop() {
     try {
-      await this.awsClient.connect()
       await this.awsClient.subscribe((msg) => this.onMessageReceived(msg).catch((e) => this.cleanup(e)))
+      await this.awsClient.connect()
+      await this.awsClient.init()
       await this.publishMessagesPeriodically()
     } catch (e) {
       await this.cleanup(e)

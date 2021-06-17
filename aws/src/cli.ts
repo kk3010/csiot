@@ -43,18 +43,11 @@ export function useCli() {
           default: process.env.AWS_PRIVATE_KEY,
           required: true,
         })
-        .option('client_id', {
-          alias: 'C',
-          description: 'Client ID for MQTT connection.',
-          type: 'string',
-          default: process.env.AWS_CLIENT_ID,
-          required: false,
-        })
-        .option('topic', {
+        .option('thing_name', {
           alias: 't',
-          description: 'STRING: Targeted topic',
+          description: 'The name for this thing',
           type: 'string',
-          default: process.env.AWS_TOPIC ?? 'topic_1',
+          default: process.env.AWS_THING_NAME,
           required: true,
         })
         .option('region', {
