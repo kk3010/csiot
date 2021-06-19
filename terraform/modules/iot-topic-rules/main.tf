@@ -6,7 +6,7 @@ resource "aws_iot_topic_rule" "forward_temperature" {
   sql_version = "2016-03-23"
   sql = "SELECT state.reported.value FROM '$aws/things/temperature/shadow/update/accepted'"
   iot_events {
-    input_name = "temperature_input"
+    input_name = "temp_sensor_input"
     role_arn = aws_iam_role.iot_rules_role.arn
   }
 }
@@ -17,7 +17,7 @@ resource "aws_iot_topic_rule" "forward_humidity" {
   sql_version = "2016-03-23"
   sql = "SELECT state.reported.value FROM '$aws/things/humidity/shadow/update/accepted'"
   iot_events {
-    input_name = "humidity_input"
+    input_name = "humidity_sensor_input"
     role_arn = aws_iam_role.iot_rules_role.arn
   }
 }
@@ -40,6 +40,17 @@ resource "aws_iot_topic_rule" "forward_door_lock" {
   sql = "SELECT state.reported.open FROM '$aws/things/door_lock/shadow/update/accepted'"
   iot_events {
     input_name = "door_lock_input"
+    role_arn = aws_iam_role.iot_rules_role.arn
+  }
+}
+
+resource "aws_iot_topic_rule" "forward_heating" {
+  name = "forward_heating"
+  enabled = true
+  sql_version = "2016-03-23"
+  sql = "SELECT state.reported.on FROM '$aws/things/heating/shadow/update/accepted'"
+  iot_events {
+    input_name = "heating_input"
     role_arn = aws_iam_role.iot_rules_role.arn
   }
 }
