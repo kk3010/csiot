@@ -1,3 +1,5 @@
 {
-    "value": 21
+    "desiredTemperature": 21,
+    "allowedError":  2, 
+    "anomalousDelta":  5
 }
