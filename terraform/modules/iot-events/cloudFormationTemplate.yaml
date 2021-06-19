@@ -1,0 +1,68 @@
+Parameters:
+  RoleArn:
+    Type: String
+Resources:
+  DoorLockInput:
+    Type: "AWS::IoTEvents::Input"
+    Properties:
+      InputName: "door_lock_input"
+      InputDefinition:
+        Attributes:
+          - JsonPath: "open"
+  MotionSensorInput:
+    Type: "AWS::IoTEvents::Input"
+    Properties:
+      InputName: "motion_sensor_input"
+      InputDefinition:
+        Attributes:
+          - JsonPath: "open"
+  AlarmDetectorModel:
+    Type: "AWS::IoTEvents::DetectorModel"
+    Properties:
+      DetectorModelName: alarm_detector_model
+      EvaluationMethod: BATCH
+      RoleArn:
+        Ref: RoleArn
+      DetectorModelDefinition:
+        InitialStateName: normal
+        States:
+          - StateName: normal
+            OnEnter:
+              Events:
+                - Actions:
+                    - IotTopicPublish:
+                        MqttTopic: $aws/things/alarm/shadow/update
+                        Payload:
+                          ContentExpression: '''{"state" : {"desired": {"on" : false }}}'''
+                          Type: JSON
+                  Condition: "true"
+                  EventName: disable_alarm
+            OnExit:
+              Events: []
+            OnInput:
+              Events: []
+              TransitionEvents:
+                - Actions: []
+                  Condition: $input.motion_sensor_input.open && $input.door_lock_input.open
+                  EventName: dangerous
+                  NextState: alarm
+          - StateName: alarm
+            OnEnter:
+              Events:
+                - Actions:
+                    - IotTopicPublish:
+                        MqttTopic: $aws/things/alarm/shadow/update
+                        Payload:
+                          ContentExpression: '''{"state": {"desired": {"on": true }}}'''
+                          Type: JSON
+                  Condition: "true"
+                  EventName: enable_alarm
+            OnExit:
+              Events: []
+            OnInput:
+              Events: []
+              TransitionEvents:
+                - Actions: []
+                  Condition: "!($input.motion_sensor_input.open && $input.door_lock_input.open)"
+                  EventName: no_danger
+                  NextState: normal
