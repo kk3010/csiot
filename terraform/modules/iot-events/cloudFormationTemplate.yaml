@@ -18,6 +18,9 @@ Resources:
           - JsonPath: "open"
   AlarmDetectorModel:
     Type: "AWS::IoTEvents::DetectorModel"
+    DependsOn:
+      - DoorLockInput
+      - MotionSensorInput
     Properties:
       DetectorModelName: alarm_detector_model
       EvaluationMethod: BATCH
