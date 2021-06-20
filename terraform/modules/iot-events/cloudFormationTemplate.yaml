@@ -16,6 +16,45 @@ Resources:
       InputDefinition:
         Attributes:
           - JsonPath: "open"
+  TempSensorInput:
+    Type: "AWS::IoTEvents::Input"
+    Properties:
+      InputName: "temp_sensor_input"
+      InputDefinition:
+        Attributes:
+          - JsonPath: "value"
+  HumiditySensorInput:
+    Type: "AWS::IoTEvents::Input"
+    Properties:
+      InputName: "humidity_sensor_input"
+      InputDefinition:
+        Attributes:
+          - JsonPath: "value"
+  HeatingInput:
+    Type: "AWS::IoTEvents::Input"
+    Properties:
+      InputName: "heating_input"
+      InputDefinition:
+        Attributes:
+          - JsonPath: "on"
+  TempSeedInput:
+    Type: "AWS::IoTEvents::Input"
+    Properties:
+      InputName: "temp_seed_input"
+      InputDefinition:
+        Attributes:
+          - JsonPath: "desiredTemperature"
+          - JsonPath: "allowedError"
+          - JsonPath: "anomalousDelta"
+  HumiditySeedInput:
+    Type: "AWS::IoTEvents::Input"
+    Properties:
+      InputName: "humidity_seed_input"
+      InputDefinition:
+        Attributes:
+          - JsonPath: "desiredHumidity"
+          - JsonPath: "allowedError"
+          - JsonPath: "anomalousDelta"
   AlarmDetectorModel:
     Type: "AWS::IoTEvents::DetectorModel"
     DependsOn:
@@ -69,3 +108,248 @@ Resources:
                   Condition: "!($input.motion_sensor_input.open && $input.door_lock_input.open)"
                   EventName: no_danger
                   NextState: normal
+  TemperatureDetectorModel:
+    Type: "AWS::IoTEvents::DetectorModel"
+    DependsOn:
+      - TempSensorInput
+      - TempSeedInput
+    Properties:
+      DetectorModelName: temperature_detector_model
+      EvaluationMethod: BATCH
+      DetectorModelDefinition:
+        InitialStateName: start
+        States:
+        - OnEnter:
+            Events:
+            - Actions:
+              - IotTopicPublish:
+                  MqttTopic: $aws/things/fan/shadow/update
+                  Payload:
+                    ContentExpression: "'{\"state\" : {\"desired\": {\"on\" : true }}}'"
+                    Type: JSON
+              Condition: 'true'
+              EventName: enable_fan
+          OnExit:
+            Events: []
+          OnInput:
+            Events: []
+            TransitionEvents:
+            - Actions: []
+              Condition: '$input.temp_sensor_input.value  <= $variable.desiredTemperature '
+              EventName: cool_enough
+              NextState: idle
+            - Actions: []
+              Condition: $input.temp_sensor_input.value > ($variable.desiredTemperature
+                + $variable.anomalousDelta)
+              EventName: dangerously_hot
+              NextState: alarm
+          StateName: cooling
+        - OnEnter:
+            Events:
+            - Actions:
+              - IotTopicPublish:
+                  MqttTopic: $aws/things/fan/shadow/update
+                  Payload:
+                    ContentExpression: "'{ \"state\": {\"desired\":{\"on\": false}}}'\n"
+                    Type: JSON
+              Condition: 'true'
+              EventName: disable_fan
+            - Actions:
+              - IotTopicPublish:
+                  MqttTopic: $aws/things/heating/shadow/update
+                  Payload:
+                    ContentExpression: "'{\"state\":{\"desired\":{\"on\":false}}}'"
+                    Type: JSON
+              Condition: 'true'
+              EventName: disable_heating
+          OnExit:
+            Events: []
+          OnInput:
+            Events: []
+            TransitionEvents:
+            - Actions: []
+              Condition: $input.temp_sensor_input.value > $variable.desiredTemperature
+                + $variable.allowedError
+              EventName: too_hot
+              NextState: cooling
+            - Actions: []
+              Condition: '($input.temp_sensor_input.value + $variable.allowedError) <
+                $variable.desiredTemperature '
+              EventName: too_cold
+              NextState: heating
+          StateName: idle
+        - OnEnter:
+            Events:
+            - Actions:
+              - IotTopicPublish:
+                  MqttTopic: $aws/things/alarm/shadow/update
+                  Payload:
+                    ContentExpression: "'{\"state\":{\"desired\":{\"on\": true}}}'"
+                    Type: JSON
+              Condition: 'true'
+              EventName: enable_alarm
+          OnExit:
+            Events:
+            - Actions:
+              - IotTopicPublish:
+                  MqttTopic: $aws/things/alarm/shadow/update
+                  Payload:
+                    ContentExpression: "'{\"state\":{\"desired\":{\"on\":false}}}'"
+                    Type: JSON
+              Condition: 'true'
+              EventName: disable_alarm
+          OnInput:
+            Events: []
+            TransitionEvents:
+            - Actions: []
+              Condition: $input.temp_sensor_input.value <= ($variable.desiredTemperature
+                + $variable.anomalousDelta)
+              EventName: not_dangerous
+              NextState: cooling
+          StateName: alarm
+        - OnEnter:
+            Events: []
+          OnExit:
+            Events: []
+          OnInput:
+            Events: []
+            TransitionEvents:
+            - Actions:
+              - SetVariable:
+                  Value: $input.seed_input.desiredTemperature
+                  VariableName: desiredTemperature
+              - SetVariable:
+                  Value: $input.seed_input.allowedError
+                  VariableName: allowedError
+              - SetVariable:
+                  Value: $input.seed_input.anomalousDelta
+                  VariableName: anomalousDelta
+              Condition: $input.seed_input.desiredTemperature > 0
+              EventName: initialize
+              NextState: idle
+          StateName: start
+        - OnEnter:
+            Events:
+            - Actions:
+              - IotTopicPublish:
+                  MqttTopic: $aws/things/heating/shadow/update
+                  Payload:
+                    ContentExpression: "'{\"state\":{\"desired\":{\"on\":true}}}'"
+                    Type: JSON
+              Condition: 'true'
+              EventName: enable_heating
+          OnExit:
+            Events: []
+          OnInput:
+            Events: []
+            TransitionEvents:
+            - Actions: []
+              Condition: '$input.temp_sensor_input.value  >= $variable.desiredTemperature '
+              EventName: warm_enough
+              NextState: idle
+          StateName: heating
+  HumidifierDetectorModel:
+    Type: "AWS::IoTEvents::DetectorModel"
+    DependsOn:
+      - HumiditySensorInput
+      - HumiditySeedInput
+      - HeatingInput
+    Properties:
+        DetectorModelDescription: Enables and disables a humidifier based on humidity
+          sensor
+        DetectorModelName: humidifier_detector_model
+        EvaluationMethod: BATCH
+        DetectorModelDefinition:
+          InitialStateName: start
+          States:
+          - OnEnter:
+              Events:
+              - Actions:
+                - IotTopicPublish:
+                    MqttTopic: $aws/things/humidifier/shadow/update
+                    Payload:
+                      ContentExpression: "'{\"state\":{\"desired\":{\"on\":true}}}'"
+                      Type: JSON
+                Condition: 'true'
+                EventName: enable_humidifier
+            OnExit:
+              Events: []
+            OnInput:
+              Events: []
+              TransitionEvents:
+              - Actions: []
+                Condition: $input.humidity_sensor_input.value >= $variable.desiredHumidity
+                EventName: humid_enough
+                NextState: idle
+            StateName: moistening
+          - OnEnter:
+              Events:
+              - Actions:
+                - IotTopicPublish:
+                    MqttTopic: $aws/things/humidifier/shadow/update
+                    Payload:
+                      ContentExpression: "'{\"state\":{\"reported\":{\"on\":false}}}'"
+                      Type: JSON
+                Condition: 'true'
+                EventName: disable_humdifier
+            OnExit:
+              Events: []
+            OnInput:
+              Events: []
+              TransitionEvents:
+              - Actions: []
+                Condition: '$input.humidity_sensor_input.value + $variable.allowedError
+                  < $variable.desiredHumidity '
+                EventName: too_dry
+                NextState: moistening
+              - Actions: []
+                Condition: $variable.heating_on
+                EventName: too_humid
+                NextState: drying
+            StateName: idle
+          - OnEnter:
+              Events:
+              - Actions:
+                - IotTopicPublish:
+                    MqttTopic: $aws/things/heating/shadow/update
+                    Payload:
+                      ContentExpression: "'{\"state\":{\"desired\":{\"on\":true}}}'"
+                      Type: JSON
+                Condition: 'true'
+                EventName: enable_heating
+            OnExit:
+              Events: []
+            OnInput:
+              Events: []
+              TransitionEvents:
+              - Actions: []
+                Condition: '!$variable.heating_on'
+                EventName: dry_enough
+                NextState: idle
+            StateName: drying
+          - OnEnter:
+              Events: []
+            OnExit:
+              Events: []
+            OnInput:
+              Events: []
+              TransitionEvents:
+              - Actions:
+                - SetVariable:
+                    Value: $input.humidity_seed_input.desiredHumidity
+                    VariableName: desiredHumidity
+                - SetVariable:
+                    Value: $input.humidity_seed_input.allowedError
+                    VariableName: allowedError
+                - SetVariable:
+                    Value: $input.humidity_seed_input.anomalousDelta
+                    VariableName: anomalousDelta
+                - SetVariable:
+                    Value: $input.heating_input.on
+                    VariableName: heating_on
+                Condition: '$input.humidity_seed_input.desiredHumidity >  0 '
+                EventName: initialize
+                NextState: idle
+            StateName: start
+
+
