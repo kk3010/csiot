@@ -116,6 +116,8 @@ Resources:
     Properties:
       DetectorModelName: temperature_detector_model
       EvaluationMethod: BATCH
+      RoleArn:
+        Ref: RoleArn
       DetectorModelDefinition:
         InitialStateName: start
         States:
@@ -259,6 +261,8 @@ Resources:
           sensor
         DetectorModelName: humidifier_detector_model
         EvaluationMethod: BATCH
+        RoleArn:
+          Ref: RoleArn
         DetectorModelDefinition:
           InitialStateName: start
           States:
