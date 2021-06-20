@@ -4,15 +4,49 @@ services:
   emulator:
     image: csiot/emulator
     build: ./emulator
+    ports: 
+      - '9292:9292'
+    volumes: 
+      - ./emulator-config.yaml:/emulator/config.yaml
 
-  bridge:
+  motion_sensor:
     image: csiot/bridge
     build: ./aws
     volumes:
-      - "./aws/certs:/app/certs:ro"
+      - "./certs/motion:/app/certs/client:ro"
+      - "./certs/root-CA.crt:/app/certs/root-CA.crt:ro"
+    depends_on:
+      - emulator
+    env_file: ./aws/.env      
+    environment:
+      # override setting from .env file since we can reach the container under its name, not via localhost
+      - DEVICE_ENDPOINT=http://emulator:9292/gpios/motion_sensor
+      - AWS_THING_NAME=motion
+
+  door_lock:
+    image: csiot/bridge
+    build: ./aws
+    volumes:
+      - "./certs/door_lock:/app/certs/client:ro"
+      - "./certs/root-CA.crt:/app/certs/root-CA.crt:ro"
+    depends_on:
+      - emulator
+    env_file: ./aws/.env      
+    environment:
+      # override setting from .env file since we can reach the container under its name, not via localhost
+      - DEVICE_ENDPOINT=http://emulator:9292/gpios/door_lock
+      - AWS_THING_NAME=door_lock
+
+  alarm:
+    image: csiot/bridge
+    build: ./aws
+    volumes:
+      - "./certs/alarm:/app/certs/client:ro"
+      - "./certs/root-CA.crt:/app/certs/root-CA.crt:ro"
     depends_on:
       - emulator
     env_file: ./aws/.env
     environment:
       # override setting from .env file since we can reach the container under its name, not via localhost
-      - DEVICE_ENDPOINT=http://emulator:9292/gpios/led_green
+      - DEVICE_ENDPOINT=http://emulator:9292/gpios/alarm
+      - AWS_THING_NAME=alarm

@@ -17,5 +17,5 @@ variable "aws_profile" {
 variable "things" {
   description = "All the things"
   type        = list(string)
-  default     = ["heating", "fan", "door_lock", "temperature", "co2"]
+  default     = ["heating", "fan", "door_lock", "temperature", "alarm", "motion", "humidifier", "humidity"]
 }
