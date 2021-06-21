@@ -218,15 +218,15 @@ Resources:
             TransitionEvents:
             - Actions:
               - SetVariable:
-                  Value: $input.seed_input.desiredTemperature
+                  Value: $input.temp_seed_input.desiredTemperature
                   VariableName: desiredTemperature
               - SetVariable:
-                  Value: $input.seed_input.allowedError
+                  Value: $input.temp_seed_input.allowedError
                   VariableName: allowedError
               - SetVariable:
-                  Value: $input.seed_input.anomalousDelta
+                  Value: $input.temp_seed_input.anomalousDelta
                   VariableName: anomalousDelta
-              Condition: $input.seed_input.desiredTemperature > 0
+              Condition: $input.temp_seed_input.desiredTemperature > 0
               EventName: initialize
               NextState: idle
           StateName: start
