@@ -11,53 +11,51 @@ resource "aws_iot_certificate" "things" {
 # create policy
 # see https://docs.aws.amazon.com/iot/latest/developerguide/iot-policy-actions.html
 resource "aws_iot_policy" "things" {
-  name   = var.thing
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "iot:Publish",
-        "iot:Receive",
-        "iot:Republish"
-      ],
-      "Resource": [
-        "arn:aws:iot:${var.aws_region}:${var.aws_account}:topic/$aws/things/${var.thing}/shadow/*"
-      ]
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "iot:Subscribe"
-      ],
-      "Resource": [
-        "arn:aws:iot:${var.aws_region}:${var.aws_account}:topicfilter/$aws/things/${var.thing}/shadow/*"
-      ]
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "iot:Connect"
-      ],
-      "Resource": [
-        "arn:aws:iot:${var.aws_region}:${var.aws_account}:client/sdk-nodejs-*"
-      ]
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "iot:GetThingShadow",
-        "iot:UpdateThingShadow"
-      ],
-      "Resource": [
-        "arn:aws:iot:${var.aws_region}:${var.aws_account}:thing/${var.thing}"
-      ]
-    }
-  ]
-}
-EOF
+  name = var.thing
+  policy = jsonencode({
+    "Version" = "2012-10-17"
+    "Statement" = [
+      {
+        "Effect" = "Allow"
+        "Action" = [
+          "iot:Publish",
+          "iot:Receive",
+          "iot:Republish"
+        ],
+        "Resource" = [
+          "arn:aws:iot:${var.aws_region}:${var.aws_account}:topic/$aws/things/${var.thing}/shadow/*"
+        ]
+      },
+      {
+        "Effect" = "Allow"
+        "Action" = [
+          "iot:Subscribe"
+        ]
+        "Resource" = [
+          "arn:aws:iot:${var.aws_region}:${var.aws_account}:topicfilter/$aws/things/${var.thing}/shadow/*"
+        ]
+      },
+      {
+        "Effect" = "Allow"
+        "Action" = [
+          "iot:Connect"
+        ]
+        "Resource" = [
+          "arn:aws:iot:${var.aws_region}:${var.aws_account}:client/sdk-nodejs-*"
+        ]
+      },
+      {
+        "Effect" = "Allow"
+        "Action" = [
+          "iot:GetThingShadow",
+          "iot:UpdateThingShadow"
+        ]
+        "Resource" = [
+          "arn:aws:iot:${var.aws_region}:${var.aws_account}:thing/${var.thing}"
+        ]
+      }
+    ]
+  })
 }
 
 # attach policy to certificate
