@@ -208,6 +208,11 @@ Resources:
                 + $variable.anomalousDelta)
               EventName: not_dangerous
               NextState: cooling
+            - Actions: []
+              Condition: $input.temp_sensor_input.value >= ($variable.desiredTemperature
+                - $variable.anomalousDelta)
+              EventName: not_dangerous
+              NextState: heating
           StateName: alarm
         - OnEnter:
             Events: []
@@ -249,6 +254,11 @@ Resources:
               Condition: '$input.temp_sensor_input.value  >= $variable.desiredTemperature '
               EventName: warm_enough
               NextState: idle
+            - Actions: []
+              Condition: $input.temp_sensor_input.value < ($variable.desiredTemperature
+                - $variable.anomalousDelta)
+              EventName: dangerously_cold
+              NextState: alarm
           StateName: heating
   HumidifierDetectorModel:
     Type: "AWS::IoTEvents::DetectorModel"
@@ -285,6 +295,11 @@ Resources:
                 Condition: $input.humidity_sensor_input.value >= $variable.desiredHumidity
                 EventName: humid_enough
                 NextState: idle
+              - Actions: []
+                Condition: $input.humidity_sensor_input.value < ($variable.desiredHumidity
+                  - $variable.anomalousDelta)
+                EventName: dangerously_dry
+                NextState: alarm
             StateName: moistening
           - OnEnter:
               Events:
@@ -330,6 +345,11 @@ Resources:
                 Condition: '!$variable.heating_on'
                 EventName: dry_enough
                 NextState: idle
+              - Actions: []
+                Condition: $input.humidity_sensor_input.value > ($variable.desiredHumidity
+                  + $variable.anomalousDelta)
+                EventName: dangerously_humid
+                NextState: alarm
             StateName: drying
           - OnEnter:
               Events: []
@@ -355,5 +375,40 @@ Resources:
                 EventName: initialize
                 NextState: idle
             StateName: start
+          - OnEnter:
+              Events:
+              - Actions:
+                - IotTopicPublish:
+                    MqttTopic: $aws/things/alarm/shadow/update
+                    Payload:
+                      ContentExpression: "'{\"state\":{\"desired\":{\"on\": true}}}'"
+                      Type: JSON
+                Condition: 'true'
+                EventName: enable_alarm
+            OnExit:
+              Events:
+              - Actions:
+                - IotTopicPublish:
+                    MqttTopic: $aws/things/alarm/shadow/update
+                    Payload:
+                      ContentExpression: "'{\"state\":{\"desired\":{\"on\":false}}}'"
+                      Type: JSON
+                Condition: 'true'
+                EventName: disable_alarm
+            OnInput:
+              Events: []
+              TransitionEvents:
+              - Actions: []
+                Condition: $input.humidity_sensor_input.value >= ($variable.desiredHumidity
+                  - $variable.anomalousDelta)
+                EventName: not_dangerous
+                NextState: moistening
+              - Actions: []
+                Condition: $input.humidity_sensor_input.value >= ($variable.desiredHumidity
+                  + $variable.anomalousDelta)
+                EventName: not_dangerous
+                NextState: drying
+            StateName: alarm
 
 
+            
