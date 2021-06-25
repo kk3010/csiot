@@ -349,7 +349,7 @@ Resources:
                   EventName: too_dry
                   NextState: moistening
                 - Actions: []
-                  Condition: $variable.heating_on
+                  Condition: $input.heating_input.on
                   EventName: too_humid
                   NextState: drying
             StateName: idle
@@ -369,7 +369,7 @@ Resources:
               Events: []
               TransitionEvents:
                 - Actions: []
-                  Condition: "!$variable.heating_on"
+                  Condition: "!$input.heating_input.on"
                   EventName: dry_enough
                   NextState: idle
                 - Actions: []
@@ -396,9 +396,6 @@ Resources:
                     - SetVariable:
                         Value: $input.humidity_seed_input.anomalousDelta
                         VariableName: anomalousDelta
-                    - SetVariable:
-                        Value: $input.heating_input.on
-                        VariableName: heating_on
                   Condition: "$input.humidity_seed_input.desiredHumidity >  0 "
                   EventName: initialize
                   NextState: idle
