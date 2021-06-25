@@ -1,5 +1,0 @@
-{
-    "desiredHumidity": 50,
-    "allowedError":  10, 
-    "anomalousDelta": 30
-}

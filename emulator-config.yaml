@@ -5,6 +5,11 @@ gpios:
     state:
       'on': false
       color: tomato
+  humidifier:
+    type: led
+    state:
+      'on': false
+      color: hotpink
   fan:
     type: led
     state:
@@ -19,8 +24,8 @@ gpios:
     type: sensor
     state:
       value: 21
-      min: 15
-      max: 30
+      min: -10
+      max: 50
       increment: 1
       unit: "C"
   humidity_sensor:
