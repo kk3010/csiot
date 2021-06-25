@@ -5,6 +5,11 @@ gpios:
     state:
       'on': false
       color: tomato
+  humidifier:
+    type: led
+    state:
+      'on': false
+      color: hotpink
   fan:
     type: led
     state:

@@ -63,7 +63,7 @@ services:
     environment:
       # override setting from .env file since we can reach the container under its name, not via localhost
       - DEVICE_ENDPOINT=http://emulator:9292/gpios/temp_sensor
-      - AWS_THING_NAME=temp_sensor
+      - AWS_THING_NAME=temperature
 
   fan:
     image: csiot/bridge
@@ -91,7 +91,7 @@ services:
     environment:
       # override setting from .env file since we can reach the container under its name, not via localhost
       - DEVICE_ENDPOINT=http://emulator:9292/gpios/humidity_sensor
-      - AWS_THING_NAME=humidity_sensor
+      - AWS_THING_NAME=humidity
 
   humidifier:
     image: csiot/bridge
