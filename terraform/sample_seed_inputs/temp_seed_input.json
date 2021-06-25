@@ -1,0 +1,9 @@
+{
+    "messages": [
+        {
+            "messageId": "1",
+            "inputName": "humidity_seed_input",
+            "payload": "{\"desiredTemperature\": 21, \"allowedError\": 2,\"anomalousDelta\": 5}"
+        }
+    ]
+}
