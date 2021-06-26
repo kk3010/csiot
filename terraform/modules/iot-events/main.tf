@@ -30,7 +30,12 @@ resource "aws_iam_role_policy" "detector_role" {
         Action   = "iot:Publish",
         Effect   = "Allow"
         Resource = "arn:aws:iot:${var.aws_region}:${var.aws_account}:topic/*"
-      }
+      },
+      {
+        "Effect"   = "Allow",
+        "Action"   = "iotevents:BatchPutMessage",
+        "Resource" = "arn:aws:iotevents:${var.aws_region}:${var.aws_account}:input/*"
+      },
     ]
   })
 }
