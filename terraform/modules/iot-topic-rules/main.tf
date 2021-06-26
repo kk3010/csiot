@@ -1,4 +1,11 @@
 
+resource "time_sleep" "wait_10_seconds" {
+  depends_on = [
+    aws_iam_role.iot_rules_role
+  ]
+  create_duration = "10s"
+}
+
 # explicitly create topic rules here because we can't auto-generate the corresponding input's name
 resource "aws_iot_topic_rule" "forward_temperature" {
   name        = "forward_temperature"
@@ -9,6 +16,7 @@ resource "aws_iot_topic_rule" "forward_temperature" {
     input_name = "temp_sensor_input"
     role_arn   = aws_iam_role.iot_rules_role.arn
   }
+  depends_on = [time_sleep.wait_10_seconds]
 }
 
 resource "aws_iot_topic_rule" "forward_humidity" {
@@ -20,6 +28,7 @@ resource "aws_iot_topic_rule" "forward_humidity" {
     input_name = "humidity_sensor_input"
     role_arn   = aws_iam_role.iot_rules_role.arn
   }
+  depends_on = [time_sleep.wait_10_seconds]
 }
 
 resource "aws_iot_topic_rule" "forward_motion" {
@@ -31,6 +40,7 @@ resource "aws_iot_topic_rule" "forward_motion" {
     input_name = "motion_sensor_input"
     role_arn   = aws_iam_role.iot_rules_role.arn
   }
+  depends_on = [time_sleep.wait_10_seconds]
 }
 
 resource "aws_iot_topic_rule" "forward_door_lock" {
@@ -42,6 +52,7 @@ resource "aws_iot_topic_rule" "forward_door_lock" {
     input_name = "door_lock_input"
     role_arn   = aws_iam_role.iot_rules_role.arn
   }
+  depends_on = [time_sleep.wait_10_seconds]
 }
 
 resource "aws_iot_topic_rule" "forward_heating" {
@@ -53,6 +64,7 @@ resource "aws_iot_topic_rule" "forward_heating" {
     input_name = "heating_input"
     role_arn   = aws_iam_role.iot_rules_role.arn
   }
+  depends_on = [time_sleep.wait_10_seconds]
 }
 
 resource "aws_iam_role" "iot_rules_role" {
