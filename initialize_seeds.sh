@@ -10,7 +10,7 @@ read -p "Enter the allowed difference in temperature that triggers an alarm: " a
 
 tempPayload=$(echo "{\"desiredTemperature\": $desiredTemp, \"allowedError\": $allowedTempError, \"anomalousDelta\": $anomalousTempDelta }" | base64)
 
-aws iotevents-data batch-put-message --messages messageId=00001,inputName=temp_seed_input,payload="$tempPayload" >> /dev/null
+docker run --rm -it -v ~/.aws:/root/.aws amazon/aws-cli iotevents-data batch-put-message --messages messageId=00001,inputName=temp_seed_input,payload="$tempPayload" >> /dev/null
 
 echo "Temperature seed input set! Detector model is set up."
 echo
@@ -24,6 +24,6 @@ read -p "Enter the allowed difference in humidity that triggers an alarm: " anom
 
 humidPayload=$(echo "{\"desiredHumidity\": $desiredHumid, \"allowedError\": $allowedHumidError, \"anomalousDelta\": $anomalousHumidDelta }" | base64)
 
-aws iotevents-data batch-put-message --messages messageId=00001,inputName=humidity_seed_input,payload="$humidPayload" >> /dev/null
+docker run --rm -it -v ~/.aws:/root/.aws amazon/aws-cli iotevents-data batch-put-message --messages messageId=00001,inputName=humidity_seed_input,payload="$humidPayload" >> /dev/null
 
 echo "Humidity seed input set! Detector model is set up."
