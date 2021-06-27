@@ -2,19 +2,14 @@
 
 This project is supposed to observe and adjust the environment climate in an art storage room. 
 
+<img src="./docs/jupiter_idea.png">
+
 ## Contributors
 
 - Chris-Robin Ennen (ce053)
 - Johannes Nißl (jn033)
 - Karyna Kachanovska (kk153)
 
-## Architecture
-
-<img src="./docs/jupiter_architecture.jpg">
-
-## Data flow 
-
-<img src="./docs/jupiter_architecture_Data_Flow.jpg">
 
 ## Setup
 
@@ -47,3 +42,10 @@ Run `docker-compose up -d` in order to start the containers. Afterwards run the 
 
 Open `localhost:9292` in your browser to manipulate the sensors. 
 
+## Architecture
+
+<img src="./docs/jupiter_architecture.jpg">
+
+## Data flow 
+
+<img src="./docs/jupiter_architecture_Data_Flow.jpg">
