@@ -12,6 +12,10 @@ This project is supposed to observe and adjust the environment climate in an art
 
 <img src="./docs/jupiter_architecture.jpg">
 
+## Data flow 
+
+<img src="./docs/jupiter_architecture_Data_Flow.jpg">
+
 ## Setup
 
 Run `git submodule update --init --recursive` to pull the submodule containing the device emulator.
@@ -42,3 +46,4 @@ Enter your 12-digit personal account-ID.
 Run `docker-compose up -d` in order to start the containers. Afterwards run the bash script `./initialize_seeds.sh` and set up your desired values for temperature and humidity.
 
 Open `localhost:9292` in your browser to manipulate the sensors. 
+
