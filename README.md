@@ -8,6 +8,10 @@ This project is supposed to observe and adjust the environment climate in an art
 - Johannes Nißl (jn033)
 - Karyna Kachanovska (kk153)
 
+## Architecture
+
+<img src="./docs/jupiter_architecture.jpg">
+
 ## Setup
 
 Run `git submodule update --init --recursive` to pull the submodule containing the device emulator.
