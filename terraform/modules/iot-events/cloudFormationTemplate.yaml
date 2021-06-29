@@ -30,10 +30,10 @@ Resources:
       InputDefinition:
         Attributes:
           - JsonPath: "value"
-  HeatingInput:
+  FanInput:
     Type: "AWS::IoTEvents::Input"
     Properties:
-      InputName: "heating_input"
+      InputName: "fan_input"
       InputDefinition:
         Attributes:
           - JsonPath: "on"
@@ -160,7 +160,7 @@ Resources:
               Events: []
               TransitionEvents:
                 - Actions: []
-                  Condition: "$input.temp_sensor_input.value  <= $variable.desiredTemperature "
+                  Condition: "$input.temp_sensor_input.value <= $variable.desiredTemperature "
                   EventName: cool_enough
                   NextState: idle
                 - Actions: []
@@ -296,7 +296,7 @@ Resources:
     DependsOn:
       - HumiditySensorInput
       - HumiditySeedInput
-      - HeatingInput
+      - FanInput
       - HumidityAlarmInput
     Properties:
       DetectorModelDescription:
@@ -357,7 +357,7 @@ Resources:
                   EventName: too_dry
                   NextState: moistening
                 - Actions: []
-                  Condition: $input.heating_input.on
+                  Condition: "!$input.fan_input.on && ($input.humidity_sensor_input.value > $variable.allowedError + $variable.desiredHumidity)"
                   EventName: too_humid
                   NextState: drying
             StateName: idle
@@ -377,7 +377,7 @@ Resources:
               Events: []
               TransitionEvents:
                 - Actions: []
-                  Condition: "!$input.heating_input.on"
+                  Condition: "$input.humidity_sensor_input.value <= $variable.desiredHumidity"
                   EventName: dry_enough
                   NextState: idle
                 - Actions: []

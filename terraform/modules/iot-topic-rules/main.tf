@@ -55,13 +55,13 @@ resource "aws_iot_topic_rule" "forward_door_lock" {
   depends_on = [time_sleep.wait_10_seconds]
 }
 
-resource "aws_iot_topic_rule" "forward_heating" {
-  name        = "forward_heating"
+resource "aws_iot_topic_rule" "forward_fan" {
+  name        = "forward_fan"
   enabled     = true
   sql_version = "2016-03-23"
-  sql         = "SELECT state.reported.on FROM '$aws/things/heating/shadow/update/accepted'"
+  sql         = "SELECT state.reported.on FROM '$aws/things/fan/shadow/update/accepted'"
   iot_events {
-    input_name = "heating_input"
+    input_name = "fan_input"
     role_arn   = aws_iam_role.iot_rules_role.arn
   }
   depends_on = [time_sleep.wait_10_seconds]
