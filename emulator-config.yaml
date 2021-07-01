@@ -1,0 +1,46 @@
+name: Storage Room
+gpios:
+  heating:
+    type: led
+    state:
+      'on': false
+      color: tomato
+  humidifier:
+    type: led
+    state:
+      'on': false
+      color: hotpink
+  fan:
+    type: led
+    state:
+      'on': false
+      color: powderblue
+  alarm:
+    type: led
+    state:
+      'on': false
+      color: red
+  temp_sensor:
+    type: sensor
+    state:
+      value: 21
+      min: -10
+      max: 50
+      increment: 1
+      unit: "C"
+  humidity_sensor:
+    type: sensor
+    state:
+      value: 40
+      min: 0
+      max: 100
+      increment: 5
+      unit: "%"
+  door_lock:
+    type: switch
+    state:
+      open: false
+  motion_sensor:
+    type: switch
+    state:
+      open: false

@@ -1,0 +1,3 @@
+[submodule "emulator"]
+	path = emulator
+	url = https://gitlab.mi.hdm-stuttgart.de/ce053/emulator.git
